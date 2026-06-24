@@ -5,7 +5,15 @@ import { AppShell } from "@/components/AppShell";
 import { clearAll, exportAllJson, importAllJson, loadPacks } from "@/lib/storage";
 import { downloadFile } from "@/lib/export";
 import { toLocalISODate } from "@/lib/date";
-import { Download, Upload, Trash2, ShieldCheck, Database, HeartHandshake } from "lucide-react";
+import {
+  Download,
+  Upload,
+  Trash2,
+  ShieldCheck,
+  Database,
+  HeartHandshake,
+  Info,
+} from "lucide-react";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({ meta: [{ title: "Settings — Kahani Studio" }] }),
@@ -88,6 +96,13 @@ function SettingsPage() {
               {count} story pack{count === 1 ? "" : "s"} stored in this browser.
             </p>
           </div>
+        </div>
+        <div className="flex items-start gap-2.5 rounded-lg border border-[color:var(--info)]/30 bg-[color:var(--info)]/10 p-3 mb-4 text-sm">
+          <Info className="w-4 h-4 text-[color:var(--info)] mt-0.5 shrink-0" />
+          <p className="text-foreground">
+            <strong>Your data is saved only in this browser/device.</strong> Use{" "}
+            <strong>Settings → Export Backup</strong> regularly so you never lose your stories.
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button className="btn-primary text-sm" onClick={backup}>

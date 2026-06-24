@@ -79,6 +79,23 @@ to download a JSON copy, and **Import backup** to restore or move it to another 
 
 ---
 
+## Deploying (e.g. Lovable)
+
+V1 is **frontend-only / local-first** and ships with **no database, no auth, and no paid
+services**. There is **nothing to configure to deploy**:
+
+- **No environment variables / secrets / DB credentials** are read anywhere — deploy with an
+  empty env and it works.
+- All story data lives in the visitor's browser (`localStorage`); there is no shared backend,
+  so nothing to provision or migrate.
+- The build renders via SSR but the server reads no config/bindings — a missing `env` is fine.
+- The only outbound request is to Google Fonts (CDN; no user data leaves the device).
+
+> Each visitor's data is private to their own browser/device. The app shows this clearly and
+> points to **Settings → Export Backup** for backups.
+
+---
+
 ## Daily ~30-minute workflow (Rahul's wife)
 
 1. **Open Kahani Studio** (bookmark it on the phone home screen).
