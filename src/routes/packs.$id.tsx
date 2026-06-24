@@ -12,7 +12,7 @@ export const Route = createFileRoute("/packs/$id")({
   component: PackDetail,
 });
 
-const STATUSES: Status[] = ["Idea", "Script Ready", "Prompt Ready", "Video Created", "Posted", "Performance Added"];
+const STATUSES: Status[] = ["Idea", "Script Ready", "Motion Prompt Ready", "Video Created", "Posted", "Performance Added"];
 
 function PackDetail() {
   const { id } = useParams({ from: "/packs/$id" });
