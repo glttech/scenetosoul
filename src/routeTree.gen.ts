@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TemplatesRouteImport } from './routes/templates'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as CalendarRouteImport } from './routes/calendar'
@@ -21,6 +22,11 @@ import { Route as PacksIdRouteImport } from './routes/packs.$id'
 const TemplatesRoute = TemplatesRouteImport.update({
   id: '/templates',
   path: '/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PacksRoute = PacksRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/settings': typeof SettingsRoute
   '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/batch': typeof BatchRoute
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
+  '/settings': typeof SettingsRoute
   '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs': typeof PacksIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/settings': typeof SettingsRoute
   '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/create'
     | '/packs'
+    | '/settings'
     | '/templates'
     | '/packs/$id'
     | '/packs/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/batch'
     | '/calendar'
     | '/create'
+    | '/settings'
     | '/templates'
     | '/packs/$id'
     | '/packs'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/create'
     | '/packs'
+    | '/settings'
     | '/templates'
     | '/packs/$id'
     | '/packs/'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   CalendarRoute: typeof CalendarRoute
   CreateRoute: typeof CreateRoute
   PacksRoute: typeof PacksRouteWithChildren
+  SettingsRoute: typeof SettingsRoute
   TemplatesRoute: typeof TemplatesRoute
 }
 
@@ -137,6 +150,13 @@ declare module '@tanstack/react-router' {
       path: '/templates'
       fullPath: '/templates'
       preLoaderRoute: typeof TemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/packs': {
@@ -209,6 +229,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarRoute: CalendarRoute,
   CreateRoute: CreateRoute,
   PacksRoute: PacksRouteWithChildren,
+  SettingsRoute: SettingsRoute,
   TemplatesRoute: TemplatesRoute,
 }
 export const routeTree = rootRouteImport

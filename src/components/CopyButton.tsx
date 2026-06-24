@@ -2,7 +2,15 @@ import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { copyText } from "@/lib/export";
 
-export function CopyButton({ text, label = "Copy", className = "" }: { text: string; label?: string; className?: string }) {
+export function CopyButton({
+  text,
+  label = "Copy",
+  className = "",
+}: {
+  text: string;
+  label?: string;
+  className?: string;
+}) {
   const [done, setDone] = useState(false);
   return (
     <button

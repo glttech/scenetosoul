@@ -84,7 +84,9 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   body {
     background: var(--gradient-soft);
     background-attachment: fixed;
@@ -92,7 +94,10 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, .font-display {
+  h1,
+  h2,
+  h3,
+  .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
@@ -117,11 +122,26 @@
   padding: 0.75rem 1.25rem;
   font-weight: 600;
   box-shadow: var(--shadow-soft);
-  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
-  display: inline-flex; align-items: center; gap: .5rem;
-  &:hover { transform: translateY(-1px); box-shadow: var(--shadow-lift); filter: brightness(1.04); }
-  &:active { transform: translateY(0); }
-  &:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lift);
+    filter: brightness(1.04);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 @utility btn-ghost {
   background: var(--color-secondary);
@@ -130,9 +150,13 @@
   padding: 0.6rem 1rem;
   font-weight: 500;
   border: 1px solid var(--color-border);
-  display: inline-flex; align-items: center; gap: .5rem;
-  transition: background .15s ease;
-  &:hover { background: var(--color-accent); }
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s ease;
+  &:hover {
+    background: var(--color-accent);
+  }
 }
 @utility input-field {
   background: var(--color-card);
@@ -142,14 +166,22 @@
   width: 100%;
   font-size: 0.95rem;
   color: var(--color-foreground);
-  transition: border-color .15s ease, box-shadow .15s ease;
-  &:focus { outline: none; border-color: var(--color-ring); box-shadow: 0 0 0 3px oklch(0.65 0.14 35 / 0.18); }
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  &:focus {
+    outline: none;
+    border-color: var(--color-ring);
+    box-shadow: 0 0 0 3px oklch(0.65 0.14 35 / 0.18);
+  }
 }
 @utility chip {
-  display: inline-flex; align-items: center; gap: .35rem;
-  padding: .25rem .65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
   border-radius: 999px;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 500;
   background: var(--color-secondary);
   color: var(--color-secondary-foreground);

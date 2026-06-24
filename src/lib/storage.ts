@@ -50,3 +50,48 @@ export function updateStatus(id: string, status: Status) {
 export function newId() {
   return `pk_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
 }
+
+/** Export every pack as a pretty JSON string for backup. */
+export function exportAllJson(): string {
+  return JSON.stringify(
+    { version: 1, exportedAt: new Date().toISOString(), packs: loadPacks() },
+    null,
+    2,
+  );
+}
+
+/**
+ * Import packs from a backup JSON string.
+ * `merge` keeps existing packs (new IDs win on conflict); otherwise replaces all.
+ * Returns the number of packs imported, or throws on invalid input.
+ */
+export function importAllJson(json: string, merge = true): number {
+  const parsed = JSON.parse(json) as unknown;
+  let incoming: ContentPack[];
+  if (Array.isArray(parsed)) incoming = parsed as ContentPack[];
+  else if (
+    parsed &&
+    typeof parsed === "object" &&
+    Array.isArray((parsed as { packs?: unknown }).packs)
+  )
+    incoming = (parsed as { packs: ContentPack[] }).packs;
+  else throw new Error("Unrecognised backup file.");
+
+  if (!incoming.every((p) => p && typeof p.id === "string" && typeof p.title === "string"))
+    throw new Error("Backup file does not contain valid story packs.");
+
+  if (!merge) {
+    savePacks(incoming);
+    return incoming.length;
+  }
+  const existing = loadPacks();
+  const byId = new Map(existing.map((p) => [p.id, p]));
+  for (const p of incoming) byId.set(p.id, p);
+  savePacks(Array.from(byId.values()));
+  return incoming.length;
+}
+
+/** Wipe all stored packs. */
+export function clearAll() {
+  savePacks([]);
+}
