@@ -175,4 +175,7 @@ Tests: `src/lib/*.test.ts` (run with `bun test`).
 
 See **[ROADMAP.md](./ROADMAP.md)** for the planned (not-yet-built) automation roadmap.
 
+New to the app? Run the **[Wife UAT checklist](./docs/WIFE_UAT_CHECKLIST.md)** — an 8-step
+sanity test you can do in a few minutes.
+
 Enjoy. Make beautiful stories. ❤️
