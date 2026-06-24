@@ -102,19 +102,19 @@ to download a JSON copy, and **Import backup** to restore or move it to another 
 
 ## What is automated vs manual (V1)
 
-|                                                    | Automated by Kahani Studio | You do it manually        |
-| -------------------------------------------------- | -------------------------- | ------------------------- |
-| Title, hook, script, voiceover, moral              | ✅                         | tweak                     |
-| Single-scene image & motion prompts                | ✅                         | edit                      |
-| Kling / PixVerse prompts (+ negative, face-safety) | ✅                         | edit                      |
-| Captions + hashtags (per platform)                 | ✅                         | edit                      |
-| Posting checklist                                  | ✅                         | tick off                  |
-| Voiceover recording                                | —                          | ✅                        |
-| Image / video generation                           | —                          | ✅ (your own tools)       |
-| Video editing                                      | —                          | ✅ (CapCut etc.)          |
-| Final approval                                     | —                          | ✅ (mandatory)            |
-| Posting                                            | —                          | ✅                        |
-| Performance entry                                  | —                          | ✅                        |
+|                                                    | Automated by Kahani Studio | You do it manually  |
+| -------------------------------------------------- | -------------------------- | ------------------- |
+| Title, hook, script, voiceover, moral              | ✅                         | tweak               |
+| Single-scene image & motion prompts                | ✅                         | edit                |
+| Kling / PixVerse prompts (+ negative, face-safety) | ✅                         | edit                |
+| Captions + hashtags (per platform)                 | ✅                         | edit                |
+| Posting checklist                                  | ✅                         | tick off            |
+| Voiceover recording                                | —                          | ✅                  |
+| Image / video generation                           | —                          | ✅ (your own tools) |
+| Video editing                                      | —                          | ✅ (CapCut etc.)    |
+| Final approval                                     | —                          | ✅ (mandatory)      |
+| Posting                                            | —                          | ✅                  |
+| Performance entry                                  | —                          | ✅                  |
 
 ---
 

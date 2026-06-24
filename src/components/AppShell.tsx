@@ -14,13 +14,13 @@ import {
 } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/create", label: "Create", icon: Plus },
-  { to: "/packs", label: "Story packs", icon: Layers },
-  { to: "/calendar", label: "Calendar", icon: Calendar },
-  { to: "/batch", label: "10 ideas", icon: Wand2 },
-  { to: "/templates", label: "Templates", icon: BookOpen },
-  { to: "/settings", label: "Settings", icon: Settings },
+  { to: "/", label: "Dashboard", short: "Home", icon: LayoutDashboard },
+  { to: "/create", label: "Create", short: "Create", icon: Plus },
+  { to: "/packs", label: "Story packs", short: "Packs", icon: Layers },
+  { to: "/calendar", label: "Calendar", short: "Calendar", icon: Calendar },
+  { to: "/batch", label: "10 ideas", short: "10 ideas", icon: Wand2 },
+  { to: "/templates", label: "Templates", short: "Templates", icon: BookOpen },
+  { to: "/settings", label: "Settings", short: "Settings", icon: Settings },
 ] as const;
 
 // Items shown directly in the mobile bottom bar; the rest live behind "More".
@@ -116,7 +116,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 }`}
               >
                 <Icon className="w-5 h-5 mb-0.5" />
-                {n.label}
+                <span className="whitespace-nowrap leading-none">{n.short}</span>
               </Link>
             );
           })}
@@ -195,9 +195,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 export function StatusBadge({ status }: { status: string }) {
   const tone =
     status === "Posted" || status === "Performance Added"
-      ? "bg-[color:var(--success)]/15 text-[color:var(--success)] border-[color:var(--success)]/30"
+      ? "bg-[color:var(--success)]/15 text-[color:var(--success-foreground)] border-[color:var(--success)]/30"
       : status === "Video Created"
-        ? "bg-[color:var(--info)]/15 text-[color:var(--info)] border-[color:var(--info)]/30"
+        ? "bg-[color:var(--info)]/15 text-[color:var(--info-foreground)] border-[color:var(--info)]/30"
         : status === "Idea"
           ? "bg-muted text-muted-foreground border-border"
           : "bg-accent/40 text-accent-foreground border-accent";

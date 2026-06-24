@@ -64,13 +64,15 @@ function CalendarPage() {
         <div className="flex items-center gap-2">
           <button
             className="btn-ghost text-xs"
+            aria-label="Previous month"
             onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="font-medium w-40 text-center">{monthLabel}</span>
+          <span className="font-medium w-32 sm:w-40 text-center">{monthLabel}</span>
           <button
             className="btn-ghost text-xs"
+            aria-label="Next month"
             onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1))}
           >
             <ChevronRight className="w-4 h-4" />
@@ -78,31 +80,38 @@ function CalendarPage() {
         </div>
       </header>
 
-      <div className="card-soft p-4">
-        <div className="grid grid-cols-7 text-xs text-muted-foreground mb-2">
+      <div className="card-soft p-2 sm:p-4">
+        <div className="grid grid-cols-7 text-[10px] sm:text-xs text-muted-foreground mb-2">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div key={d} className="text-center font-medium py-2">
-              {d}
+            <div key={d} className="text-center font-medium py-1.5 sm:py-2">
+              <span className="sm:hidden">{d[0]}</span>
+              <span className="hidden sm:inline">{d}</span>
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1.5">
+        <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
           {grid.map((c, i) => {
             const items = c.date ? (byDate.get(c.date) ?? []) : [];
             const isToday = c.date === today;
             return (
               <div
                 key={i}
-                className={`min-h-[88px] rounded-lg border p-1.5 text-xs ${c.date ? "bg-card" : "bg-transparent border-transparent"} ${isToday ? "border-primary" : "border-border"}`}
+                className={`min-h-[52px] sm:min-h-[88px] rounded-lg border p-1 sm:p-1.5 text-xs ${c.date ? "bg-card" : "bg-transparent border-transparent"} ${isToday ? "border-primary" : "border-border"}`}
               >
                 {c.day && (
                   <div
-                    className={`text-[11px] font-medium mb-1 ${isToday ? "text-primary" : "text-muted-foreground"}`}
+                    className={`text-[11px] font-medium mb-1 flex items-center justify-between ${isToday ? "text-primary" : "text-muted-foreground"}`}
                   >
-                    {c.day}
+                    <span>{c.day}</span>
+                    {/* Compact count badge on phones; full titles on >= sm */}
+                    {items.length > 0 && (
+                      <span className="sm:hidden text-[10px] font-semibold text-primary">
+                        {items.length}
+                      </span>
+                    )}
                   </div>
                 )}
-                <div className="grid gap-1">
+                <div className="hidden sm:grid gap-1">
                   {items.slice(0, 3).map((p) => (
                     <Link
                       key={p.id}
@@ -123,6 +132,9 @@ function CalendarPage() {
             );
           })}
         </div>
+        <p className="sm:hidden text-[11px] text-muted-foreground mt-2 text-center">
+          Tap a day's stories in the list below.
+        </p>
       </div>
 
       <h2 className="text-lg font-display font-semibold mt-8 mb-3">Daily list this month</h2>

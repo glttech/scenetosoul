@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { generateBatch } from "@/lib/generators";
-import { upsertPack } from "@/lib/storage";
+import { addPacks } from "@/lib/storage";
 import type {
   Audience,
   ContentPack,
@@ -14,7 +14,7 @@ import type {
   Platform,
   Theme,
 } from "@/lib/types";
-import { downloadFile, packToMarkdown, packsToCsv } from "@/lib/export";
+import { downloadFile, packToMarkdown, packToTxt, packsToCsv } from "@/lib/export";
 import {
   LANGUAGES,
   THEMES,
@@ -25,6 +25,7 @@ import {
   themeLabel,
   moodLabel,
   cap,
+  LANG_TAG,
 } from "@/lib/labels";
 import { Check, Download, Sparkles, X } from "lucide-react";
 
@@ -66,11 +67,17 @@ function BatchPage() {
 
   function saveSelected() {
     const toSave = drafts.filter((d) => selected.has(d.id));
-    toSave.forEach(upsertPack);
-    if (toSave.length) {
-      toast.success(`Saved ${toSave.length} story packs`);
-      nav({ to: "/packs" });
+    if (!toSave.length) return;
+    try {
+      addPacks(toSave);
+    } catch {
+      toast.error("Couldn't save", {
+        description: "Storage may be full. Export a backup in Settings and clear old packs.",
+      });
+      return;
     }
+    toast.success(`Saved ${toSave.length} story packs`);
+    nav({ to: "/packs" });
   }
 
   function toggle(id: string) {
@@ -195,6 +202,17 @@ function BatchPage() {
                 <Download className="w-3.5 h-3.5" /> Markdown bundle
               </button>
               <button
+                className="btn-ghost text-xs"
+                onClick={() =>
+                  downloadFile(
+                    `kahani-batch-${Date.now()}.txt`,
+                    drafts.map(packToTxt).join("\n\n---\n\n"),
+                  )
+                }
+              >
+                <Download className="w-3.5 h-3.5" /> TXT bundle
+              </button>
+              <button
                 className="btn-primary text-sm"
                 disabled={!selected.size}
                 onClick={saveSelected}
@@ -229,11 +247,17 @@ function BatchPage() {
                         className="input-field font-display text-lg font-semibold"
                         value={d.title}
                         onChange={(e) => editTitle(d.id, e.target.value)}
+                        lang={LANG_TAG[d.language]}
                       />
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                      <p
+                        className="text-sm text-muted-foreground mt-2 line-clamp-2"
+                        lang={LANG_TAG[d.language]}
+                      >
                         {d.script.hook}
                       </p>
-                      <p className="text-sm mt-1 line-clamp-2">{d.script.punchline}</p>
+                      <p className="text-sm mt-1 line-clamp-2" lang={LANG_TAG[d.language]}>
+                        {d.script.punchline}
+                      </p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         <span className="chip">{themeLabel(d.theme)}</span>
                         <span className="chip">

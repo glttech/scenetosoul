@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { newId, importAllJson } from "./storage";
+import { newId, importAllJson, normalizePack } from "./storage";
 
 describe("newId", () => {
   test("is prefixed and reasonably unique", () => {
@@ -26,5 +26,28 @@ describe("importAllJson", () => {
   });
   test("throws on invalid JSON", () => {
     expect(() => importAllJson("{not json")).toThrow();
+  });
+});
+
+describe("normalizePack", () => {
+  test("backfills nested shapes so partial packs can't crash renders/exports", () => {
+    const p = normalizePack({ id: "pk_x" });
+    expect(p.title).toBe("Untitled story");
+    expect(p.mode).toBe("single");
+    expect(typeof p.script.hook).toBe("string");
+    expect(typeof p.script.voiceover).toBe("string");
+    expect(Array.isArray(p.captions.hashtags)).toBe(true);
+    expect(Array.isArray(p.scenes)).toBe(true);
+    expect(Array.isArray(p.checklist)).toBe(true);
+  });
+  test("coerces a non-array hashtags field to an array", () => {
+    const p = normalizePack({ id: "pk_y", captions: { hashtags: "oops" } });
+    expect(p.captions.hashtags).toEqual([]);
+  });
+  test("normalizes scenes with all string fields present", () => {
+    const p = normalizePack({ id: "pk_z", scenes: [{}] });
+    expect(p.scenes).toHaveLength(1);
+    expect(p.scenes[0].aspectRatio).toContain("9:16");
+    expect(typeof p.scenes[0].klingPrompt).toBe("string");
   });
 });

@@ -199,6 +199,75 @@ function emotionFor(mood: Mood): string {
   return map[mood];
 }
 
+// Localized words so Marathi/Hindi output never contains stray English adjectives.
+const MOOD_WORDS: Record<"Marathi" | "Hindi", Record<Mood, string>> = {
+  Marathi: {
+    "heart-touching": "मनाला भिडणारी",
+    uplifting: "उत्साह देणारी",
+    nostalgic: "जुन्या आठवणी जागवणारी",
+    calm: "शांत",
+    intense: "तीव्र",
+    tender: "हळवी",
+    hopeful: "आशादायी",
+    bittersweet: "गोड-कडू",
+  },
+  Hindi: {
+    "heart-touching": "दिल को छू लेने वाली",
+    uplifting: "हौसला देने वाली",
+    nostalgic: "यादें ताज़ा करने वाली",
+    calm: "शांत",
+    intense: "गहरी",
+    tender: "कोमल",
+    hopeful: "उम्मीद भरी",
+    bittersweet: "मीठी-कड़वी",
+  },
+};
+
+const THEME_WORDS: Record<"Marathi" | "Hindi", Record<Theme, string>> = {
+  Marathi: {
+    emotional: "भावनिक",
+    family: "कौटुंबिक",
+    moral: "बोधप्रद",
+    village: "गावाकडची",
+    couple: "प्रेमाची",
+    motivational: "प्रेरणादायी",
+    devotional: "भक्तिमय",
+    festival: "सणाची",
+    lifelesson: "जीवनमूल्याची",
+    sad: "दुःखद",
+    romantic: "रोमँटिक",
+    inspirational: "प्रेरणादायी",
+  },
+  Hindi: {
+    emotional: "भावनात्मक",
+    family: "पारिवारिक",
+    moral: "शिक्षाप्रद",
+    village: "गाँव की",
+    couple: "प्रेम की",
+    motivational: "प्रेरणादायक",
+    devotional: "भक्तिमय",
+    festival: "त्योहार की",
+    lifelesson: "जीवन-मूल्य की",
+    sad: "दुखद",
+    romantic: "रोमांटिक",
+    inspirational: "प्रेरणादायक",
+  },
+};
+
+const STORY_WORD: Record<Language, string> = { Marathi: "गोष्ट", Hindi: "कहानी", English: "story" };
+const SUBSCRIBE_CTA: Record<Language, string> = {
+  Marathi: "रोज नवीन गोष्टी. सबस्क्राइब करा आणि बेल दाबा 🔔",
+  Hindi: "हर रोज़ नई कहानियाँ. सब्सक्राइब करें और बेल दबाएँ 🔔",
+  English: "New stories every day. Subscribe and tap the bell 🔔",
+};
+
+function moodWord(language: Language, mood: Mood): string {
+  return language === "English" ? moodLabel(mood).toLowerCase() : MOOD_WORDS[language][mood];
+}
+function themeWord(language: Language, theme: Theme): string {
+  return language === "English" ? themeLabel(theme).toLowerCase() : THEME_WORDS[language][theme];
+}
+
 export function generateScript(input: Brief): Script {
   const { topic, language, theme, mood } = input;
   const title = input.title?.trim() || deriveTitle(topic);
@@ -206,12 +275,13 @@ export function generateScript(input: Brief): Script {
   const moral = pick(MORALS[language]);
   const themeName = themeLabel(theme).toLowerCase();
   const moodName = moodLabel(mood).toLowerCase();
+  const moodW = moodWord(language, mood);
 
   const body =
     language === "Marathi"
-      ? `${title} — ${topic.trim()}. एक साधी सुरुवात, एक मनाला भिडणारा क्षण, आणि एक अशी शिकवण जी आयुष्यभर सोबत राहते. प्रत्येक क्षण ${moodName} भावना जागवतो.`
+      ? `${title} — ${topic.trim()}. एक साधी सुरुवात, एक मनाला भिडणारा क्षण, आणि एक अशी शिकवण जी आयुष्यभर सोबत राहते. प्रत्येक क्षण ${moodW} भावना जागवतो.`
       : language === "Hindi"
-        ? `${title} — ${topic.trim()}. एक छोटी सी शुरुआत, एक दिल को छू लेने वाला पल, और एक ऐसी सीख जो ज़िंदगी भर साथ रहेगी. हर पल ${moodName} भाव जगाता है.`
+        ? `${title} — ${topic.trim()}. एक छोटी सी शुरुआत, एक दिल को छू लेने वाला पल, और एक ऐसी सीख जो ज़िंदगी भर साथ रहेगी. हर पल ${moodW} भावना जगाता है.`
         : `${title} — ${topic.trim()}. A simple beginning, a heart-touching moment, and a lesson that stays for life. Every beat carries a ${moodName}, ${themeName} feeling.`;
 
   const punchline =
@@ -362,11 +432,12 @@ export function generateCaptions(input: Brief): CaptionSet {
   const { language, theme, mood } = input;
   const title = input.title?.trim() || deriveTitle(input.topic);
   const moodName = moodLabel(mood).toLowerCase();
+  const moodW = moodWord(language, mood);
   const base =
     language === "Marathi"
-      ? `${title} ❤️\nएक छोटीशी गोष्ट, मोठा संदेश.\n\nतुम्हाला ही ${moodName} गोष्ट कशी वाटली? कमेंटमध्ये सांगा 👇\nआवडलं तर शेअर करायला विसरू नका.`
+      ? `${title} ❤️\nएक छोटीशी गोष्ट, मोठा संदेश.\n\nतुम्हाला ही ${moodW} गोष्ट कशी वाटली? कमेंटमध्ये सांगा 👇\nआवडलं तर शेअर करायला विसरू नका.`
       : language === "Hindi"
-        ? `${title} ❤️\nएक छोटी सी कहानी, बड़ा संदेश.\n\nआपको ये ${moodName} कहानी कैसी लगी? कमेंट में बताइए 👇\nपसंद आए तो शेयर ज़रूर करें.`
+        ? `${title} ❤️\nएक छोटी सी कहानी, बड़ा संदेश.\n\nआपको ये ${moodW} कहानी कैसी लगी? कमेंट में बताइए 👇\nपसंद आए तो शेयर ज़रूर करें.`
         : `${title} ❤️\nA small story, a big message.\n\nHow did this ${moodName} story make you feel? Tell us in the comments 👇\nIf it touched you, please share.`;
 
   const tags = [
@@ -379,10 +450,15 @@ export function generateCaptions(input: Brief): CaptionSet {
     "#trending",
   ];
 
+  const youtubeTitle =
+    language === "English"
+      ? `${title} | ${moodLabel(mood)} ${themeLabel(theme)} story`
+      : `${title} | ${moodW} ${themeWord(language, theme)} ${STORY_WORD[language]}`;
+
   return {
     instagram: base,
-    youtubeTitle: `${title} | ${moodLabel(mood)} ${themeLabel(theme)} story (${language})`,
-    youtubeDescription: `${base}\n\nNew stories every day. Subscribe and tap the bell 🔔`,
+    youtubeTitle,
+    youtubeDescription: `${base}\n\n${SUBSCRIBE_CTA[language]}`,
     facebook: base,
     whatsapp:
       language === "Marathi"

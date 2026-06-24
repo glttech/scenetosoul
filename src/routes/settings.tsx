@@ -72,7 +72,7 @@ function SettingsPage() {
         </p>
         <h1 className="text-3xl font-display font-semibold">Your data &amp; safety</h1>
         <p className="text-muted-foreground mt-1 max-w-2xl">
-          Everything lives on this device. Back up regularly, and move your library between devices
+          Your stories live on this device. Back up regularly, and move your library between devices
           with export / import.
         </p>
       </header>
@@ -122,8 +122,9 @@ function SettingsPage() {
         </div>
         <ul className="grid gap-2 text-sm text-muted-foreground">
           <li>
-            ✅ <strong className="text-foreground">Local-first.</strong> Your stories never leave
-            this device.
+            ✅ <strong className="text-foreground">Local-first.</strong> Your stories and data stay
+            on this device — they are never uploaded. (Only the page fonts load from Google's font
+            CDN.)
           </li>
           <li>
             ✅ <strong className="text-foreground">No paid APIs</strong> in V1 — nothing to

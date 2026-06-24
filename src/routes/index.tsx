@@ -4,7 +4,7 @@ import { AppShell, StatusBadge } from "@/components/AppShell";
 import { loadPacks } from "@/lib/storage";
 import type { ContentPack } from "@/lib/types";
 import { todayISO } from "@/lib/date";
-import { themeLabel, moodLabel } from "@/lib/labels";
+import { themeLabel, moodLabel, LANG_TAG } from "@/lib/labels";
 import {
   Plus,
   Wand2,
@@ -227,8 +227,15 @@ function PackCard({ p }: { p: ContentPack }) {
         <span className="chip">{p.language}</span>
         <StatusBadge status={p.status} />
       </div>
-      <h3 className="font-display text-lg leading-snug font-semibold line-clamp-2">{p.title}</h3>
-      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{p.script.hook}</p>
+      <h3
+        className="font-display text-lg leading-snug font-semibold line-clamp-2"
+        lang={LANG_TAG[p.language]}
+      >
+        {p.title}
+      </h3>
+      <p className="text-sm text-muted-foreground mt-2 line-clamp-2" lang={LANG_TAG[p.language]}>
+        {p.script?.hook ?? ""}
+      </p>
       <div className="mt-3 flex flex-wrap gap-1.5 text-[11px] text-muted-foreground">
         <span className="chip">{p.platform}</span>
         <span className="chip">{p.duration}s</span>

@@ -66,7 +66,14 @@ function CreatePage() {
       referenceNote,
       scheduledDate: scheduledDate || undefined,
     });
-    upsertPack(pack);
+    try {
+      upsertPack(pack);
+    } catch {
+      toast.error("Couldn't save", {
+        description: "Storage may be full. Export a backup in Settings and clear old packs.",
+      });
+      return;
+    }
     toast.success("Story pack created", { description: pack.title });
     nav({ to: "/packs/$id", params: { id: pack.id } });
   }

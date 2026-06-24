@@ -4,7 +4,7 @@ import { AppShell, StatusBadge } from "@/components/AppShell";
 import { loadPacks } from "@/lib/storage";
 import type { ContentPack, Language, Platform, Status } from "@/lib/types";
 import { downloadFile, packsToCsv } from "@/lib/export";
-import { themeLabel } from "@/lib/labels";
+import { themeLabel, LANG_TAG } from "@/lib/labels";
 import { formatDay } from "@/lib/date";
 import { Download, Plus, Search } from "lucide-react";
 
@@ -132,8 +132,18 @@ function PacksList() {
                 <span className="chip">{p.language}</span>
                 <StatusBadge status={p.status} />
               </div>
-              <h3 className="font-display text-lg font-semibold line-clamp-2">{p.title}</h3>
-              <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{p.script.hook}</p>
+              <h3
+                className="font-display text-lg font-semibold line-clamp-2"
+                lang={LANG_TAG[p.language]}
+              >
+                {p.title}
+              </h3>
+              <p
+                className="text-sm text-muted-foreground mt-2 line-clamp-2"
+                lang={LANG_TAG[p.language]}
+              >
+                {p.script?.hook ?? ""}
+              </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 <span className="chip">{p.platform}</span>
                 <span className="chip">{p.duration}s</span>

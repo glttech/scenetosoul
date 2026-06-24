@@ -6,7 +6,7 @@ import { deletePack, getPack, upsertPack } from "@/lib/storage";
 import type { ContentPack, Performance, Scene, Status } from "@/lib/types";
 import { CopyButton } from "@/components/CopyButton";
 import { downloadFile, fileBase, packToMarkdown, packToTxt, packsToCsv } from "@/lib/export";
-import { themeLabel, moodLabel, cap } from "@/lib/labels";
+import { themeLabel, moodLabel, cap, LANG_TAG } from "@/lib/labels";
 import {
   ArrowLeft,
   Download,
@@ -36,11 +36,21 @@ function PackDetail() {
   const { id } = useParams({ from: "/packs/$id" });
   const nav = useNavigate();
   const [pack, setPack] = useState<ContentPack | undefined>();
+  const [loaded, setLoaded] = useState(false);
   const [tab, setTab] = useState<"script" | "scenes" | "captions" | "tracker">(() => "script");
 
   useEffect(() => {
     setPack(getPack(id));
+    setLoaded(true);
   }, [id]);
+
+  if (!loaded) {
+    return (
+      <AppShell>
+        <div className="card-soft p-10 text-center text-muted-foreground">Loading story pack…</div>
+      </AppShell>
+    );
+  }
 
   if (!pack) {
     return (
@@ -92,9 +102,15 @@ function PackDetail() {
               value={pack.title}
               onChange={(e) => update({ ...pack, title: e.target.value })}
               aria-label="Story title"
+              lang={LANG_TAG[pack.language]}
             />
             {pack.topic && (
-              <p className="text-sm text-muted-foreground mt-2 max-w-2xl">{pack.topic}</p>
+              <p
+                className="text-sm text-muted-foreground mt-2 max-w-2xl"
+                lang={LANG_TAG[pack.language]}
+              >
+                {pack.topic}
+              </p>
             )}
             <div className="mt-3 flex flex-wrap gap-1.5">
               <span className="chip bg-accent/50 border-accent text-accent-foreground">
@@ -192,9 +208,17 @@ function PackDetail() {
         ))}
       </div>
 
-      {tab === "script" && <ScriptTab pack={pack} update={update} />}
+      {tab === "script" && (
+        <div lang={LANG_TAG[pack.language]}>
+          <ScriptTab pack={pack} update={update} />
+        </div>
+      )}
       {tab === "scenes" && <ScenesTab pack={pack} update={update} />}
-      {tab === "captions" && <CaptionsTab pack={pack} update={update} />}
+      {tab === "captions" && (
+        <div lang={LANG_TAG[pack.language]}>
+          <CaptionsTab pack={pack} update={update} />
+        </div>
+      )}
       {tab === "tracker" && <TrackerTab pack={pack} update={update} />}
     </AppShell>
   );

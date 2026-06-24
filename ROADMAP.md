@@ -35,7 +35,7 @@ intentionally gated behind explicit human approval and opt-in configuration. V1 
 
 ## V3 — assisted workflows (opt-in, human-approved)
 
-- **n8n / Make** flows to push *approved* packs to a Notion / Google Sheets backup.
+- **n8n / Make** flows to push _approved_ packs to a Notion / Google Sheets backup.
 - **Canva** templates for thumbnails and on-screen text overlays.
 - **CapCut** template integration (auto-import captions / subtitles).
 - **Meta Business Suite** scheduling — drafts only, still gated by human approval.

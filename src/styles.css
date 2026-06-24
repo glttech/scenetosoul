@@ -30,10 +30,14 @@
   --destructive-foreground: oklch(0.99 0.005 80);
   /* Sage */
   --success: oklch(0.66 0.04 145);
+  /* Darker sage for AA-contrast text on tinted badges */
+  --success-foreground: oklch(0.44 0.05 145);
   /* Soft Gold */
   --warning: oklch(0.74 0.11 82);
   /* Dusty Blue */
   --info: oklch(0.64 0.035 240);
+  /* Darker dusty blue for AA-contrast text on tinted badges */
+  --info-foreground: oklch(0.42 0.05 240);
   /* Warm Border */
   --border: oklch(0.89 0.018 72);
   --input: oklch(0.9 0.016 72);
@@ -74,13 +78,15 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Fraunces", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", "Noto Sans Devanagari", Georgia, serif;
+  --font-sans: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
 }
 
 @layer base {
@@ -93,6 +99,10 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+  :lang(mr),
+  :lang(hi) {
+    font-family: "Noto Sans Devanagari", "Inter", system-ui, sans-serif;
   }
   h1,
   h2,

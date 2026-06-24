@@ -5,6 +5,9 @@ import type { Audience, Duration, Language, Mood, Platform, Theme } from "./type
 
 export const LANGUAGES: Language[] = ["Marathi", "Hindi", "English"];
 
+/** BCP-47 tags for the `lang` attribute on generated content (a11y + font scoping). */
+export const LANG_TAG: Record<Language, string> = { Marathi: "mr", Hindi: "hi", English: "en" };
+
 export const THEMES: Theme[] = [
   "emotional",
   "family",
