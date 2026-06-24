@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PacksIndexRouteImport } from './routes/packs.index'
 
 const PacksRoute = PacksRouteImport.update({
   id: '/packs',
@@ -28,35 +29,42 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PacksIndexRoute = PacksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PacksRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
-  '/packs': typeof PacksRoute
+  '/packs': typeof PacksRouteWithChildren
+  '/packs/': typeof PacksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
-  '/packs': typeof PacksRoute
+  '/packs': typeof PacksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
-  '/packs': typeof PacksRoute
+  '/packs': typeof PacksRouteWithChildren
+  '/packs/': typeof PacksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/packs'
+  fullPaths: '/' | '/create' | '/packs' | '/packs/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/create' | '/packs'
-  id: '__root__' | '/' | '/create' | '/packs'
+  id: '__root__' | '/' | '/create' | '/packs' | '/packs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
-  PacksRoute: typeof PacksRoute
+  PacksRoute: typeof PacksRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -82,13 +90,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/packs/': {
+      id: '/packs/'
+      path: '/'
+      fullPath: '/packs/'
+      preLoaderRoute: typeof PacksIndexRouteImport
+      parentRoute: typeof PacksRoute
+    }
   }
 }
+
+interface PacksRouteChildren {
+  PacksIndexRoute: typeof PacksIndexRoute
+}
+
+const PacksRouteChildren: PacksRouteChildren = {
+  PacksIndexRoute: PacksIndexRoute,
+}
+
+const PacksRouteWithChildren = PacksRoute._addFileChildren(PacksRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
-  PacksRoute: PacksRoute,
+  PacksRoute: PacksRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
