@@ -11,7 +11,7 @@ export const Route = createFileRoute("/packs/")({
   component: PacksList,
 });
 
-const STATUSES: Status[] = ["Idea", "Script Ready", "Prompt Ready", "Video Created", "Posted", "Performance Added"];
+const STATUSES: Status[] = ["Idea", "Script Ready", "Motion Prompt Ready", "Video Created", "Posted", "Performance Added"];
 const PLATFORMS: Platform[] = ["Instagram", "YouTube Shorts", "Facebook Reels", "WhatsApp Status"];
 const LANGS: Language[] = ["Marathi", "Hindi", "English"];
 
@@ -45,8 +45,8 @@ function PacksList() {
     <AppShell>
       <header className="flex flex-wrap items-end justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-3xl font-display font-semibold">All content packs</h1>
-          <p className="text-muted-foreground">{filtered.length} of {packs.length} pack{packs.length === 1 ? "" : "s"}</p>
+          <h1 className="text-3xl font-display font-semibold">All story packs</h1>
+          <p className="text-muted-foreground">{filtered.length} of {packs.length} story pack{packs.length === 1 ? "" : "s"}</p>
         </div>
         <div className="flex gap-2">
           <Link to="/create" className="btn-primary"><Plus className="w-4 h-4" /> New</Link>

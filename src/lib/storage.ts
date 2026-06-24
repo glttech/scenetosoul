@@ -11,7 +11,18 @@ export function loadPacks(): ContentPack[] {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return [];
-    return JSON.parse(raw) as ContentPack[];
+    const parsed = JSON.parse(raw) as ContentPack[];
+    // Migration: "Prompt Ready" → "Motion Prompt Ready"
+    let changed = false;
+    const migrated = parsed.map((p) => {
+      if ((p.status as string) === "Prompt Ready") {
+        changed = true;
+        return { ...p, status: "Motion Prompt Ready" as ContentPack["status"] };
+      }
+      return p;
+    });
+    if (changed) window.localStorage.setItem(KEY, JSON.stringify(migrated));
+    return migrated;
   } catch {
     return [];
   }
