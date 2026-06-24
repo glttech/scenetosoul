@@ -13,6 +13,7 @@ import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PacksIndexRouteImport } from './routes/packs.index'
+import { Route as PacksIdRouteImport } from './routes/packs.$id'
 
 const PacksRoute = PacksRouteImport.update({
   id: '/packs',
@@ -34,16 +35,23 @@ const PacksIndexRoute = PacksIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PacksRoute,
 } as any)
+const PacksIdRoute = PacksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PacksRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
+  '/packs/$id': typeof PacksIdRoute
   '/packs': typeof PacksIndexRoute
 }
 export interface FileRoutesById {
@@ -51,14 +59,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/packs' | '/packs/'
+  fullPaths: '/' | '/create' | '/packs' | '/packs/$id' | '/packs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/packs'
-  id: '__root__' | '/' | '/create' | '/packs' | '/packs/'
+  to: '/' | '/create' | '/packs/$id' | '/packs'
+  id: '__root__' | '/' | '/create' | '/packs' | '/packs/$id' | '/packs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -97,14 +106,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PacksIndexRouteImport
       parentRoute: typeof PacksRoute
     }
+    '/packs/$id': {
+      id: '/packs/$id'
+      path: '/$id'
+      fullPath: '/packs/$id'
+      preLoaderRoute: typeof PacksIdRouteImport
+      parentRoute: typeof PacksRoute
+    }
   }
 }
 
 interface PacksRouteChildren {
+  PacksIdRoute: typeof PacksIdRoute
   PacksIndexRoute: typeof PacksIndexRoute
 }
 
 const PacksRouteChildren: PacksRouteChildren = {
+  PacksIdRoute: PacksIdRoute,
   PacksIndexRoute: PacksIndexRoute,
 }
 
