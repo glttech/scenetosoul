@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as CalendarRouteImport } from './routes/calendar'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PacksIndexRouteImport } from './routes/packs.index'
 import { Route as PacksIdRouteImport } from './routes/packs.$id'
 
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PacksRoute = PacksRouteImport.update({
   id: '/packs',
   path: '/packs',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/batch': typeof BatchRoute
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
+  '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs': typeof PacksIndexRoute
 }
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
+  '/templates': typeof TemplatesRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs/': typeof PacksIndexRoute
 }
@@ -88,10 +97,18 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/create'
     | '/packs'
+    | '/templates'
     | '/packs/$id'
     | '/packs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/batch' | '/calendar' | '/create' | '/packs/$id' | '/packs'
+  to:
+    | '/'
+    | '/batch'
+    | '/calendar'
+    | '/create'
+    | '/templates'
+    | '/packs/$id'
+    | '/packs'
   id:
     | '__root__'
     | '/'
@@ -99,6 +116,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/create'
     | '/packs'
+    | '/templates'
     | '/packs/$id'
     | '/packs/'
   fileRoutesById: FileRoutesById
@@ -109,10 +127,18 @@ export interface RootRouteChildren {
   CalendarRoute: typeof CalendarRoute
   CreateRoute: typeof CreateRoute
   PacksRoute: typeof PacksRouteWithChildren
+  TemplatesRoute: typeof TemplatesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/templates': {
+      id: '/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof TemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/packs': {
       id: '/packs'
       path: '/packs'
@@ -183,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarRoute: CalendarRoute,
   CreateRoute: CreateRoute,
   PacksRoute: PacksRouteWithChildren,
+  TemplatesRoute: TemplatesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
