@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -76,19 +77,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kahani Studio — Local-first AI Content Factory" },
-      { name: "description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { title: "Kahani Studio — Local-first AI Short-Video Studio" },
+      {
+        name: "description",
+        content:
+          "Turn one idea into a complete short-video story pack — script, voiceover, single-scene motion prompt, captions and a posting checklist. For Reels, Shorts, Facebook & WhatsApp Status. Local-first, no paid APIs.",
+      },
       { name: "author", content: "Kahani Studio" },
-      { property: "og:title", content: "Kahani Studio — Local-first AI Content Factory" },
-      { property: "og:description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
+      { name: "theme-color", content: "#FBF7F0" },
+      { property: "og:title", content: "Kahani Studio — Local-first AI Short-Video Studio" },
+      {
+        property: "og:description",
+        content:
+          "Turn one idea into a complete short-video story pack — script, voiceover, motion prompt, captions and a posting checklist.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Kahani Studio — Local-first AI Content Factory" },
-      { name: "twitter:description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/ff338f18-5638-49ec-a0fb-1fd36af692df" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/ff338f18-5638-49ec-a0fb-1fd36af692df" },
+      { name: "twitter:title", content: "Kahani Studio — Local-first AI Short-Video Studio" },
+      {
+        name: "twitter:description",
+        content:
+          "Turn one idea into a complete short-video story pack — script, voiceover, motion prompt, captions and a posting checklist.",
+      },
     ],
     links: [
       {
@@ -97,7 +108,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -127,6 +141,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }

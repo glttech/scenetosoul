@@ -1,12 +1,23 @@
 import type { ContentPack } from "./types";
+import { themeLabel, moodLabel, cap } from "./labels";
 
 export function packToMarkdown(p: ContentPack): string {
   const lines: string[] = [];
   lines.push(`# ${p.title}`);
   lines.push(``);
-  lines.push(`**Language:** ${p.language}  •  **Theme:** ${p.theme}  •  **Mood:** ${p.mood}`);
-  lines.push(`**Platform:** ${p.platform}  •  **Duration:** ${p.duration}s  •  **Audience:** ${p.audience}`);
+  lines.push(`> ${p.topic}`);
+  lines.push(``);
+  lines.push(
+    `**Mode:** ${p.mode === "single" ? "Single scene" : "Multi-scene story"}  •  **Language:** ${p.language}  •  **Theme:** ${themeLabel(p.theme)}  •  **Mood:** ${moodLabel(p.mood)}`,
+  );
+  lines.push(
+    `**Platform:** ${p.platform}  •  **Duration:** ${p.duration}s  •  **Audience:** ${cap(p.audience)}  •  **Ratio:** 9:16`,
+  );
   lines.push(`**Status:** ${p.status}  •  **Created:** ${new Date(p.createdAt).toLocaleString()}`);
+  if (p.characterDetails) lines.push(`**Character:** ${p.characterDetails}`);
+  if (p.backgroundDetails) lines.push(`**Background:** ${p.backgroundDetails}`);
+  if (p.weather) lines.push(`**Weather:** ${p.weather}`);
+  if (p.visualStyle) lines.push(`**Visual style:** ${p.visualStyle}`);
   if (p.inspirationNotes) lines.push(`**Inspiration:** ${p.inspirationNotes}`);
   lines.push(``);
   lines.push(`## Script`);
@@ -19,17 +30,22 @@ export function packToMarkdown(p: ContentPack): string {
   lines.push(`### Short version\n${p.script.shortVersion}`);
   lines.push(`### Dramatic version\n${p.script.dramaticVersion}`);
   lines.push(``);
-  lines.push(`## Scenes`);
+  lines.push(p.mode === "single" ? `## Scene` : `## Scenes`);
   p.scenes.forEach((s) => {
-    lines.push(`### Scene ${s.number} (${s.duration}s)`);
+    lines.push(
+      `### ${p.mode === "single" ? "Scene" : `Scene ${s.number}`} (${s.duration}s, ${s.aspectRatio})`,
+    );
     lines.push(`- **Camera:** ${s.cameraMovement}`);
     lines.push(`- **Character:** ${s.character}`);
     lines.push(`- **Background:** ${s.background}`);
+    lines.push(`- **Weather:** ${s.weather}`);
     lines.push(`- **Lighting:** ${s.lighting}`);
     lines.push(`- **Emotion:** ${s.emotion}`);
+    lines.push(`- **Subtle motion:** ${s.subtleMotion}`);
     lines.push(`- **Image prompt:** ${s.imagePrompt}`);
     lines.push(`- **Kling prompt:** ${s.klingPrompt}`);
     lines.push(`- **PixVerse prompt:** ${s.pixversePrompt}`);
+    lines.push(`- **Face safety:** ${s.faceSafety}`);
     lines.push(`- **Negative prompt:** ${s.negativePrompt}`);
     lines.push(`- **Editor notes:** ${s.editorNotes}`);
   });
@@ -41,6 +57,11 @@ export function packToMarkdown(p: ContentPack): string {
   lines.push(`### Facebook\n${p.captions.facebook}`);
   lines.push(`### WhatsApp Status\n${p.captions.whatsapp}`);
   lines.push(`### Hashtags\n${p.captions.hashtags.join(" ")}`);
+  if (p.checklist?.length) {
+    lines.push(``);
+    lines.push(`## Posting checklist`);
+    p.checklist.forEach((c) => lines.push(`- [${c.done ? "x" : " "}] ${c.label}`));
+  }
   if (p.performance) {
     lines.push(``);
     lines.push(`## Performance`);
@@ -63,21 +84,74 @@ function csvEscape(v: unknown): string {
 
 export function packsToCsv(packs: ContentPack[]): string {
   const headers = [
-    "id", "createdAt", "title", "language", "theme", "mood", "duration",
-    "platform", "audience", "status", "scheduledDate",
-    "hook", "punchline", "moral", "voiceover", "instagram", "youtubeTitle",
-    "facebook", "whatsapp", "hashtags", "sceneCount",
-    "views", "likes", "comments", "shares", "saves",
+    "id",
+    "createdAt",
+    "mode",
+    "title",
+    "topic",
+    "language",
+    "theme",
+    "mood",
+    "duration",
+    "platform",
+    "audience",
+    "status",
+    "scheduledDate",
+    "hook",
+    "punchline",
+    "moral",
+    "voiceover",
+    "imagePrompt",
+    "klingPrompt",
+    "pixversePrompt",
+    "instagram",
+    "youtubeTitle",
+    "facebook",
+    "whatsapp",
+    "hashtags",
+    "sceneCount",
+    "views",
+    "likes",
+    "comments",
+    "shares",
+    "saves",
   ];
-  const rows = packs.map((p) => [
-    p.id, p.createdAt, p.title, p.language, p.theme, p.mood, p.duration,
-    p.platform, p.audience, p.status, p.scheduledDate ?? "",
-    p.script.hook, p.script.punchline, p.script.moralEnding, p.script.voiceover,
-    p.captions.instagram, p.captions.youtubeTitle, p.captions.facebook, p.captions.whatsapp,
-    p.captions.hashtags.join(" "), p.scenes.length,
-    p.performance?.views ?? "", p.performance?.likes ?? "",
-    p.performance?.comments ?? "", p.performance?.shares ?? "", p.performance?.saves ?? "",
-  ]);
+  const rows = packs.map((p) => {
+    const s0 = p.scenes[0];
+    return [
+      p.id,
+      p.createdAt,
+      p.mode,
+      p.title,
+      p.topic,
+      p.language,
+      p.theme,
+      p.mood,
+      p.duration,
+      p.platform,
+      p.audience,
+      p.status,
+      p.scheduledDate ?? "",
+      p.script.hook,
+      p.script.punchline,
+      p.script.moralEnding,
+      p.script.voiceover,
+      s0?.imagePrompt ?? "",
+      s0?.klingPrompt ?? "",
+      s0?.pixversePrompt ?? "",
+      p.captions.instagram,
+      p.captions.youtubeTitle,
+      p.captions.facebook,
+      p.captions.whatsapp,
+      p.captions.hashtags.join(" "),
+      p.scenes.length,
+      p.performance?.views ?? "",
+      p.performance?.likes ?? "",
+      p.performance?.comments ?? "",
+      p.performance?.shares ?? "",
+      p.performance?.saves ?? "",
+    ];
+  });
   return [headers, ...rows].map((r) => r.map(csvEscape).join(",")).join("\n");
 }
 
@@ -100,4 +174,14 @@ export async function copyText(text: string) {
   } catch {
     return false;
   }
+}
+
+/** A filesystem-safe base name from a pack title (keeps Devanagari). */
+export function fileBase(title: string): string {
+  return (
+    title
+      .replace(/[^\wऀ-ॿ\- ]+/g, "")
+      .replace(/\s+/g, "-")
+      .slice(0, 40) || "story-pack"
+  );
 }

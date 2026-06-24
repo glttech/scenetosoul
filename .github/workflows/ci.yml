@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # The committed bun.lock pins two @lovable.dev packages to Lovable's
+      # private registry (used by the Lovable platform). Those packages are also
+      # published on public npm, so on GitHub we resolve fresh from npm to avoid
+      # needing a private-registry token. We don't modify the committed lockfile.
+      - name: Install dependencies
+        run: |
+          rm -f bun.lock
+          bun install
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Test
+        run: bun test src
+
+      - name: Build
+        run: bun run build
