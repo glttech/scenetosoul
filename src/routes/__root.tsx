@@ -80,11 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Kahani Studio — Local-first AI Content Factory" },
       { name: "description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
       { name: "author", content: "Kahani Studio" },
-      { property: "og:title", content: "Kahani Studio" },
-      { property: "og:description", content: "Local-first creator studio for emotional short-video packs." },
+      { property: "og:title", content: "Kahani Studio — Local-first AI Content Factory" },
+      { property: "og:description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Kahani Studio — Local-first AI Content Factory" },
+      { name: "twitter:description", content: "Plan, script and produce emotional short-video content packs for Reels, Shorts, Facebook & WhatsApp Status." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/ff338f18-5638-49ec-a0fb-1fd36af692df" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/ff338f18-5638-49ec-a0fb-1fd36af692df" },
     ],
     links: [
       {
