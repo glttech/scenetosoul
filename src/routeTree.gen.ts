@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
+import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PacksIndexRouteImport } from './routes/packs.index'
 import { Route as PacksIdRouteImport } from './routes/packs.$id'
@@ -23,6 +24,11 @@ const PacksRoute = PacksRouteImport.update({
 const CreateRoute = CreateRouteImport.update({
   id: '/create',
   path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,6 +49,7 @@ const PacksIdRoute = PacksIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
   '/packs/$id': typeof PacksIdRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs/$id': typeof PacksIdRoute
   '/packs': typeof PacksIndexRoute
@@ -57,6 +65,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
   '/packs/$id': typeof PacksIdRoute
@@ -64,14 +73,22 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/packs' | '/packs/$id' | '/packs/'
+  fullPaths: '/' | '/calendar' | '/create' | '/packs' | '/packs/$id' | '/packs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/packs/$id' | '/packs'
-  id: '__root__' | '/' | '/create' | '/packs' | '/packs/$id' | '/packs/'
+  to: '/' | '/calendar' | '/create' | '/packs/$id' | '/packs'
+  id:
+    | '__root__'
+    | '/'
+    | '/calendar'
+    | '/create'
+    | '/packs'
+    | '/packs/$id'
+    | '/packs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarRoute: typeof CalendarRoute
   CreateRoute: typeof CreateRoute
   PacksRoute: typeof PacksRouteWithChildren
 }
@@ -90,6 +107,13 @@ declare module '@tanstack/react-router' {
       path: '/create'
       fullPath: '/create'
       preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -130,6 +154,7 @@ const PacksRouteWithChildren = PacksRoute._addFileChildren(PacksRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarRoute: CalendarRoute,
   CreateRoute: CreateRoute,
   PacksRoute: PacksRouteWithChildren,
 }
