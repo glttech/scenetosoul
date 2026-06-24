@@ -17,6 +17,7 @@ import {
   Share2,
   BarChart3,
   ShieldCheck,
+  Info,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -120,6 +121,17 @@ function Dashboard() {
           </div>
         </div>
       </section>
+
+      <Link
+        to="/settings"
+        className="flex items-start gap-2.5 rounded-[var(--radius-lg)] border border-[color:var(--info)]/30 bg-[color:var(--info)]/10 p-3.5 mb-8 text-sm hover:bg-[color:var(--info)]/15 transition-colors"
+      >
+        <Info className="w-4 h-4 text-[color:var(--info)] mt-0.5 shrink-0" />
+        <span className="text-foreground">
+          <strong>Your data is saved only in this browser/device.</strong> Use{" "}
+          <strong>Settings → Export Backup</strong> regularly so you never lose your stories.
+        </span>
+      </Link>
 
       <section className="mb-8">
         <div className="flex items-end justify-between mb-3">
