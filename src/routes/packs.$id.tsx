@@ -8,11 +8,11 @@ import { downloadFile, packToMarkdown, packToTxt, packsToCsv } from "@/lib/expor
 import { ArrowLeft, Download, FileText, Save, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/packs/$id")({
-  head: () => ({ meta: [{ title: "Pack — Kahani Studio" }] }),
+  head: () => ({ meta: [{ title: "Story pack — Story Studio" }] }),
   component: PackDetail,
 });
 
-const STATUSES: Status[] = ["Idea", "Script Ready", "Prompt Ready", "Video Created", "Posted", "Performance Added"];
+const STATUSES: Status[] = ["Idea", "Script Ready", "Motion Prompt Ready", "Video Created", "Posted", "Performance Added"];
 
 function PackDetail() {
   const { id } = useParams({ from: "/packs/$id" });
@@ -27,7 +27,7 @@ function PackDetail() {
       <AppShell>
         <div className="card-soft p-10 text-center">
           <p className="text-muted-foreground">Pack not found.</p>
-          <Link to="/packs" className="btn-ghost mt-4 inline-flex"><ArrowLeft className="w-4 h-4" /> Back to packs</Link>
+          <Link to="/packs" className="btn-ghost mt-4 inline-flex"><ArrowLeft className="w-4 h-4" /> Back to story packs</Link>
         </div>
       </AppShell>
     );
@@ -55,7 +55,7 @@ function PackDetail() {
   return (
     <AppShell>
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-        <Link to="/packs" className="hover:text-foreground inline-flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> All packs</Link>
+        <Link to="/packs" className="hover:text-foreground inline-flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> All story packs</Link>
       </div>
 
       <header className="card-lift p-6 sm:p-7 mb-6">
@@ -115,7 +115,7 @@ function PackDetail() {
           <button key={t}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${tab === t ? "bg-primary text-primary-foreground" : "bg-card border border-border hover:bg-secondary"}`}
             onClick={() => setTab(t)}>
-            {t === "script" ? "Script" : t === "scenes" ? `Scenes (${pack.scenes.length})` : t === "captions" ? "Captions & hashtags" : "Posting & performance"}
+            {t === "script" ? "Script & voiceover" : t === "scenes" ? `Motion prompts (${pack.scenes.length})` : t === "captions" ? "Captions & hashtags" : "Posting & performance"}
           </button>
         ))}
       </div>
@@ -174,8 +174,8 @@ function ScenesTab({ pack, update }: { pack: ContentPack; update: (p: ContentPac
       {pack.scenes.map((sc, i) => (
         <section key={i} className="card-soft p-5">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-display font-semibold">Scene {sc.number} <span className="text-muted-foreground font-sans text-sm">• {sc.duration}s • {sc.cameraMovement}</span></h3>
-            <CopyButton text={`Image: ${sc.imagePrompt}\n\nKling: ${sc.klingPrompt}\n\nPixVerse: ${sc.pixversePrompt}\n\nNegative: ${sc.negativePrompt}`} label="Copy prompts" />
+          <h3 className="font-display font-semibold">Shot {sc.number} <span className="text-muted-foreground font-sans text-sm">• {sc.duration}s • {sc.cameraMovement}</span></h3>
+            <CopyButton text={`Image: ${sc.imagePrompt}\n\nKling motion prompt: ${sc.klingPrompt}\n\nPixVerse motion prompt: ${sc.pixversePrompt}\n\nNegative: ${sc.negativePrompt}`} label="Copy motion prompts" />
           </div>
           <div className="grid gap-3">
             <SceneField label="Image prompt" value={sc.imagePrompt} onChange={(v) => setScene(i, { ...sc, imagePrompt: v })} />

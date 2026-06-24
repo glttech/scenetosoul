@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AppShell, StatusBadge } from "@/components/AppShell";
 import { loadPacks } from "@/lib/storage";
 import type { ContentPack } from "@/lib/types";
-import { Plus, Sparkles, Calendar as CalIcon, ArrowRight, Layers } from "lucide-react";
+import { Plus, Wand2, Calendar as CalIcon, ArrowRight, Layers, Lightbulb, FileText, Film, Share2, BarChart3, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,43 +36,71 @@ function Dashboard() {
     acc[p.status] = (acc[p.status] ?? 0) + 1;
     return acc;
   }, {});
-  const statusList: { key: string; tone: string }[] = [
-    { key: "Idea", tone: "muted" },
-    { key: "Script Ready", tone: "accent" },
-    { key: "Prompt Ready", tone: "accent" },
-    { key: "Video Created", tone: "info" },
-    { key: "Posted", tone: "success" },
-    { key: "Performance Added", tone: "success" },
+  const statusList = [
+    { key: "Idea", icon: Lightbulb },
+    { key: "Script Ready", icon: FileText },
+    { key: "Motion Prompt Ready", icon: Wand2 },
+    { key: "Video Created", icon: Film },
+    { key: "Posted", icon: Share2 },
+    { key: "Performance Added", icon: BarChart3 },
+  ] as const;
+
+  const THEME_CHIPS = [
+    "Emotional","Moral","Family","Couple","Village","Motivational",
+    "Devotional","Festival","Life Lesson","Sad","Romantic","Inspirational",
   ];
 
   return (
     <AppShell>
-      <section className="card-lift p-6 sm:p-8 mb-8 overflow-hidden relative">
-        <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-warm)" }} />
-        <div className="relative">
-          <p className="chip mb-3"><Sparkles className="w-3 h-3" /> Local-first • No paid APIs</p>
-          <h1 className="text-3xl sm:text-4xl font-display font-semibold leading-tight">
-            Good morning. Let's create a story today.
-          </h1>
-          <p className="mt-2 text-muted-foreground max-w-xl">
-            One topic in. A full content pack out — script, scene prompts, captions, hashtags.
-            Ready to shoot, edit, and post by hand.
+      <section className="card-lift p-6 sm:p-10 mb-8 overflow-hidden relative">
+        <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full opacity-25 blur-3xl" style={{ background: "var(--gradient-warm)" }} />
+        <div className="absolute -left-20 bottom-0 w-64 h-64 rounded-full opacity-20 blur-3xl" style={{ background: "var(--gradient-gold)" }} />
+        <div className="relative max-w-3xl">
+          <p className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium mb-4">
+            <ShieldCheck className="w-3.5 h-3.5 text-[color:var(--success)]" />
+            Local-first creator studio
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/create" className="btn-primary"><Plus className="w-4 h-4" /> New content pack</Link>
-            <Link to="/batch" className="btn-ghost"><Sparkles className="w-4 h-4" /> Batch create 10</Link>
-            <Link to="/calendar" className="btn-ghost"><CalIcon className="w-4 h-4" /> Calendar</Link>
+          <h1 className="text-3xl sm:text-5xl font-display font-semibold leading-[1.05] tracking-tight">
+            Create short-video stories faster.
+          </h1>
+          <p className="mt-4 text-muted-foreground text-base sm:text-lg max-w-2xl">
+            Turn one idea into a ready-to-use story pack with script, voiceover, AI motion prompt,
+            captions, and posting checklist — for Reels, Shorts, Facebook and WhatsApp Status.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link to="/create" className="btn-primary"><Plus className="w-4 h-4" /> Create Story Pack</Link>
+            <Link to="/batch" className="btn-ghost"><Wand2 className="w-4 h-4" /> Create 10 Ideas</Link>
+            <Link to="/calendar" className="btn-ghost"><CalIcon className="w-4 h-4" /> View Calendar</Link>
+          </div>
+          <div className="mt-7 flex flex-wrap gap-1.5">
+            {THEME_CHIPS.map((t) => <span key={t} className="chip">{t}</span>)}
           </div>
         </div>
       </section>
 
-      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        {statusList.map((s) => (
-          <div key={s.key} className="card-soft p-4">
-            <div className="text-xs text-muted-foreground">{s.key}</div>
-            <div className="text-2xl font-display font-semibold mt-1">{counts[s.key] ?? 0}</div>
+      <section className="mb-8">
+        <div className="flex items-end justify-between mb-3">
+          <div>
+            <h2 className="text-lg font-display font-semibold">Production pipeline</h2>
+            <p className="text-xs text-muted-foreground">Track every story from idea to performance.</p>
           </div>
-        ))}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {statusList.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.key} className="card-soft p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="grid place-items-center w-7 h-7 rounded-md bg-secondary text-foreground/70">
+                    <Icon className="w-3.5 h-3.5" />
+                  </span>
+                  <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground leading-tight">{s.key}</div>
+                </div>
+                <div className="text-2xl font-display font-semibold">{counts[s.key] ?? 0}</div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="mb-10">
@@ -95,16 +123,16 @@ function Dashboard() {
 
       <section>
         <div className="flex items-end justify-between mb-3">
-          <h2 className="text-xl font-display font-semibold">Recent content packs</h2>
+          <h2 className="text-xl font-display font-semibold">Recent story packs</h2>
           <Link to="/packs" className="text-sm text-primary hover:underline inline-flex items-center gap-1">See all <ArrowRight className="w-3.5 h-3.5" /></Link>
         </div>
         {recent.length === 0 ? (
           <EmptyCard
-            title="No content packs yet"
+            title="No story packs yet"
             body="Your stories will appear here. Start with a quick create or browse the templates."
             cta={
               <div className="flex gap-2 flex-wrap">
-                <Link to="/create" className="btn-primary"><Plus className="w-4 h-4" /> Quick create</Link>
+                <Link to="/create" className="btn-primary"><Plus className="w-4 h-4" /> Create Story Pack</Link>
                 <Link to="/templates" className="btn-ghost"><Layers className="w-4 h-4" /> Browse templates</Link>
               </div>
             }
@@ -145,8 +173,8 @@ function PackCard({ p }: { p: ContentPack }) {
 function EmptyCard({ title, body, cta }: { title: string; body: string; cta: React.ReactNode }) {
   return (
     <div className="card-soft p-8 text-center">
-      <div className="mx-auto w-12 h-12 grid place-items-center rounded-2xl mb-3" style={{ background: "var(--gradient-warm)" }}>
-        <Sparkles className="w-5 h-5 text-primary-foreground" />
+      <div className="mx-auto w-12 h-12 grid place-items-center rounded-xl mb-3" style={{ background: "var(--gradient-warm)" }}>
+        <Film className="w-5 h-5 text-primary-foreground" />
       </div>
       <h3 className="font-display text-lg font-semibold">{title}</h3>
       <p className="text-sm text-muted-foreground mt-1 max-w-md mx-auto">{body}</p>

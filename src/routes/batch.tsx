@@ -8,7 +8,7 @@ import { downloadFile, packToMarkdown, packsToCsv } from "@/lib/export";
 import { Check, Download, Sparkles, X } from "lucide-react";
 
 export const Route = createFileRoute("/batch")({
-  head: () => ({ meta: [{ title: "Batch — Kahani Studio" }] }),
+  head: () => ({ meta: [{ title: "Create 10 Ideas — Story Studio" }] }),
   component: BatchPage,
 });
 
@@ -49,8 +49,9 @@ function BatchPage() {
   return (
     <AppShell>
       <header className="mb-6">
-        <h1 className="text-3xl font-display font-semibold">Batch create</h1>
-        <p className="text-muted-foreground">Generate up to 10 unique content packs at once. Review, tweak, and keep only what you love.</p>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Idea generator</p>
+        <h1 className="text-3xl font-display font-semibold">Create 10 ideas</h1>
+        <p className="text-muted-foreground max-w-2xl">Generate up to 10 unique story packs at once. Review, rename, and keep only the ones you love.</p>
       </header>
 
       <div className="card-lift p-5 sm:p-6 grid gap-4 mb-6">
@@ -67,7 +68,7 @@ function BatchPage() {
           </label>
         </div>
         <div>
-          <button className="btn-primary" onClick={generate}><Sparkles className="w-4 h-4" /> Generate {count} packs</button>
+          <button className="btn-primary" onClick={generate}><Sparkles className="w-4 h-4" /> Generate {count} ideas</button>
         </div>
       </div>
 

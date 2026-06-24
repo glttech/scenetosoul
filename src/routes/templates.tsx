@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/templates")({
-  head: () => ({ meta: [{ title: "Templates — Kahani Studio" }] }),
+  head: () => ({ meta: [{ title: "Story templates — Story Studio" }] }),
   component: TemplatesPage,
 });
 
@@ -32,8 +32,9 @@ function TemplatesPage() {
   return (
     <AppShell>
       <header className="mb-6">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Starter library</p>
         <h1 className="text-3xl font-display font-semibold">Story templates</h1>
-        <p className="text-muted-foreground">Hand-picked story starters in Marathi, Hindi and English. Tap any to generate a full content pack.</p>
+        <p className="text-muted-foreground max-w-2xl">Hand-picked starters across emotional, family, moral, devotional, festival and village themes. Tap any to generate a full story pack.</p>
       </header>
 
       <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
