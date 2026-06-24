@@ -7,7 +7,7 @@ import type { Audience, Duration, Language, Mood, Platform, Theme } from "@/lib/
 import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/create")({
-  head: () => ({ meta: [{ title: "Create — Kahani Studio" }] }),
+  head: () => ({ meta: [{ title: "Create Story Pack — Story Studio" }] }),
   component: CreatePage,
 });
 
@@ -48,8 +48,9 @@ function CreatePage() {
   return (
     <AppShell>
       <header className="mb-6">
-        <h1 className="text-3xl font-display font-semibold">Create a content pack</h1>
-        <p className="text-muted-foreground mt-1">Fill in the basics. Kahani Studio will draft a full script, scene prompts, captions and hashtags. Edit anything you like.</p>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Step 1 · Brief</p>
+        <h1 className="text-3xl font-display font-semibold">Create a story pack</h1>
+        <p className="text-muted-foreground mt-1 max-w-2xl">Fill in the basics. Story Studio drafts a full script, motion prompt, captions and hashtags. Edit anything before you shoot.</p>
       </header>
 
       <form onSubmit={onSubmit} className="card-lift p-6 sm:p-8 grid gap-6">
@@ -90,7 +91,7 @@ function CreatePage() {
         {error && <p className="text-sm text-destructive">{error}</p>}
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          <button type="submit" className="btn-primary"><Sparkles className="w-4 h-4" /> Generate content pack</button>
+          <button type="submit" className="btn-primary"><Sparkles className="w-4 h-4" /> Generate Story Pack</button>
           <p className="text-xs text-muted-foreground">Runs locally. No data leaves your device.</p>
         </div>
       </form>

@@ -35,6 +35,18 @@ export const TEMPLATES: Template[] = [
   { id: "mo3", language: "Hindi", title: "बेटे का पहला वेतन", theme: "parents", mood: "inspiring", notes: "पहली कमाई पापा के हाथ में." },
   { id: "mo4", language: "Marathi", title: "मुलीच्या डोळ्यांतील गर्व", theme: "family", mood: "motivational", notes: "वडिलांचा संघर्ष, मुलीचा अभिमान." },
   { id: "mo5", language: "English", title: "The unsent message", theme: "couple", mood: "emotional", notes: "A message saved in drafts for years." },
+
+  // Broader creator library (matches dashboard chips)
+  { id: "lib1", language: "Hindi", title: "Rainy Couple Moment", theme: "couple", mood: "romantic", notes: "Two people share an umbrella, one quiet glance says everything." },
+  { id: "lib2", language: "Hindi", title: "Mother's Silent Sacrifice", theme: "parents", mood: "heart-touching", notes: "A mother eats last so her child eats first. Years later, the child notices." },
+  { id: "lib3", language: "Hindi", title: "Father's Strength", theme: "parents", mood: "inspiring", notes: "A father carries quiet weight no one sees, until the child grows up." },
+  { id: "lib4", language: "Marathi", title: "Village Moral Story", theme: "village", mood: "family-value", notes: "A small village kindness teaches a city-returned youth what really matters." },
+  { id: "lib5", language: "Hindi", title: "Devotional Morning Thought", theme: "devotional", mood: "inspiring", notes: "A 15-second reflection for morning Status — calm, devotional, hopeful." },
+  { id: "lib6", language: "Marathi", title: "Festival Memory", theme: "festival", mood: "emotional", notes: "An old festival photo brings a family back together." },
+  { id: "lib7", language: "Hindi", title: "Struggle to Success", theme: "struggle", mood: "motivational", notes: "A short rise-up arc — failure, persistence, quiet win." },
+  { id: "lib8", language: "English", title: "Broken Friendship", theme: "emotional", mood: "sad", notes: "Two friends who stopped talking, one message that almost got sent." },
+  { id: "lib9", language: "Hindi", title: "Family Values", theme: "family", mood: "family-value", notes: "A small dinner-table moment that defines a whole family." },
+  { id: "lib10", language: "English", title: "Life Lesson Quote", theme: "moral", mood: "inspiring", notes: "One-line life lesson with a visual metaphor — perfect for Status." },
 ];
 
 export const KLING_PROMPT_STYLE = `Cinematic, photoreal, 24fps, smooth natural human motion. Camera move: [slow push-in / dolly / static]. Lighting: warm golden hour, soft fill. Mood: emotional, intimate. Keep faces expressive, hands natural. Avoid jitter, avoid morphing.`;

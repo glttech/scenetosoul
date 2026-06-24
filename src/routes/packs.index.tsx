@@ -7,7 +7,7 @@ import { downloadFile, packsToCsv } from "@/lib/export";
 import { Download, Plus, Search } from "lucide-react";
 
 export const Route = createFileRoute("/packs/")({
-  head: () => ({ meta: [{ title: "All packs — Kahani Studio" }] }),
+  head: () => ({ meta: [{ title: "Story packs — Story Studio" }] }),
   component: PacksList,
 });
 
@@ -45,7 +45,7 @@ function PacksList() {
     <AppShell>
       <header className="flex flex-wrap items-end justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-3xl font-display font-semibold">All content packs</h1>
+          <h1 className="text-3xl font-display font-semibold">Story packs</h1>
           <p className="text-muted-foreground">{filtered.length} of {packs.length} pack{packs.length === 1 ? "" : "s"}</p>
         </div>
         <div className="flex gap-2">
