@@ -49,8 +49,8 @@ function BatchPage() {
   return (
     <AppShell>
       <header className="mb-6">
-        <h1 className="text-3xl font-display font-semibold">Batch create</h1>
-        <p className="text-muted-foreground">Generate up to 10 unique content packs at once. Review, tweak, and keep only what you love.</p>
+        <h1 className="text-3xl font-display font-semibold">Create 10 Story Ideas</h1>
+        <p className="text-muted-foreground">Spin up to 10 emotional single-scene story packs at once. Keep only the ones that touch your heart.</p>
       </header>
 
       <div className="card-lift p-5 sm:p-6 grid gap-4 mb-6">
@@ -67,7 +67,7 @@ function BatchPage() {
           </label>
         </div>
         <div>
-          <button className="btn-primary" onClick={generate}><Sparkles className="w-4 h-4" /> Generate {count} packs</button>
+          <button className="btn-primary" onClick={generate}><Sparkles className="w-4 h-4" /> Generate {count} story ideas</button>
         </div>
       </div>
 

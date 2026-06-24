@@ -1,13 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Home, Plus, Calendar, Layers, BookOpen, Sparkles } from "lucide-react";
+import { Home, Plus, Calendar, Layers, BookOpen, Sparkles, Heart } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: Home },
   { to: "/create", label: "Create", icon: Plus },
-  { to: "/packs", label: "All packs", icon: Layers },
+  { to: "/packs", label: "Story packs", icon: Layers },
   { to: "/calendar", label: "Calendar", icon: Calendar },
-  { to: "/batch", label: "Batch", icon: Sparkles },
+  { to: "/batch", label: "10 ideas", icon: Sparkles },
   { to: "/templates", label: "Templates", icon: BookOpen },
 ] as const;
 
@@ -18,10 +18,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-20 backdrop-blur bg-background/70 border-b border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="grid place-items-center w-9 h-9 rounded-xl text-primary-foreground" style={{ background: "var(--gradient-warm)" }}>
-              <Sparkles className="w-4 h-4" />
+            <span className="grid place-items-center w-9 h-9 rounded-2xl shadow-[var(--shadow-soft)]" style={{ background: "var(--gradient-warm)" }}>
+              <Heart className="w-4 h-4 fill-[#3A1F2B]" strokeWidth={0} />
             </span>
-            <span className="font-display text-lg font-semibold">Kahani Studio</span>
+            <span className="font-display text-lg font-semibold tracking-tight">Kahani Studio</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             {nav.map((n) => {
@@ -63,7 +63,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </nav>
       <footer className="hidden md:block border-t border-border/60 py-6 text-center text-xs text-muted-foreground">
-        Local-first. Your stories stay on this device. Use your own photos, licensed stock, or AI-generated images only.
+        <span className="inline-flex items-center gap-1.5">
+          <Heart className="w-3 h-3 fill-[color:var(--primary)]" strokeWidth={0} />
+          Local-first · No paid APIs · No auto-posting · Your stories stay on this device
+        </span>
       </footer>
     </div>
   );
