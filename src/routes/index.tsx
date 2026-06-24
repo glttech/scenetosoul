@@ -39,7 +39,7 @@ function Dashboard() {
   const statusList: { key: string; tone: string }[] = [
     { key: "Idea", tone: "muted" },
     { key: "Script Ready", tone: "accent" },
-    { key: "Prompt Ready", tone: "accent" },
+    { key: "Motion Prompt Ready", tone: "accent" },
     { key: "Video Created", tone: "info" },
     { key: "Posted", tone: "success" },
     { key: "Performance Added", tone: "success" },

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/packs/")({
   component: PacksList,
 });
 
-const STATUSES: Status[] = ["Idea", "Script Ready", "Prompt Ready", "Video Created", "Posted", "Performance Added"];
+const STATUSES: Status[] = ["Idea", "Script Ready", "Motion Prompt Ready", "Video Created", "Posted", "Performance Added"];
 const PLATFORMS: Platform[] = ["Instagram", "YouTube Shorts", "Facebook Reels", "WhatsApp Status"];
 const LANGS: Language[] = ["Marathi", "Hindi", "English"];
 
