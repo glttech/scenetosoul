@@ -9,38 +9,164 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TemplatesRouteImport } from './routes/templates'
+import { Route as PacksRouteImport } from './routes/packs'
+import { Route as CreateRouteImport } from './routes/create'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as BatchRouteImport } from './routes/batch'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PacksIndexRouteImport } from './routes/packs.index'
+import { Route as PacksIdRouteImport } from './routes/packs.$id'
 
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PacksRoute = PacksRouteImport.update({
+  id: '/packs',
+  path: '/packs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateRoute = CreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BatchRoute = BatchRouteImport.update({
+  id: '/batch',
+  path: '/batch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PacksIndexRoute = PacksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PacksRoute,
+} as any)
+const PacksIdRoute = PacksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PacksRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
+  '/calendar': typeof CalendarRoute
+  '/create': typeof CreateRoute
+  '/packs': typeof PacksRouteWithChildren
+  '/templates': typeof TemplatesRoute
+  '/packs/$id': typeof PacksIdRoute
+  '/packs/': typeof PacksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
+  '/calendar': typeof CalendarRoute
+  '/create': typeof CreateRoute
+  '/templates': typeof TemplatesRoute
+  '/packs/$id': typeof PacksIdRoute
+  '/packs': typeof PacksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
+  '/calendar': typeof CalendarRoute
+  '/create': typeof CreateRoute
+  '/packs': typeof PacksRouteWithChildren
+  '/templates': typeof TemplatesRoute
+  '/packs/$id': typeof PacksIdRoute
+  '/packs/': typeof PacksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/batch'
+    | '/calendar'
+    | '/create'
+    | '/packs'
+    | '/templates'
+    | '/packs/$id'
+    | '/packs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/batch'
+    | '/calendar'
+    | '/create'
+    | '/templates'
+    | '/packs/$id'
+    | '/packs'
+  id:
+    | '__root__'
+    | '/'
+    | '/batch'
+    | '/calendar'
+    | '/create'
+    | '/packs'
+    | '/templates'
+    | '/packs/$id'
+    | '/packs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BatchRoute: typeof BatchRoute
+  CalendarRoute: typeof CalendarRoute
+  CreateRoute: typeof CreateRoute
+  PacksRoute: typeof PacksRouteWithChildren
+  TemplatesRoute: typeof TemplatesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/templates': {
+      id: '/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof TemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packs': {
+      id: '/packs'
+      path: '/packs'
+      fullPath: '/packs'
+      preLoaderRoute: typeof PacksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create': {
+      id: '/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/batch': {
+      id: '/batch'
+      path: '/batch'
+      fullPath: '/batch'
+      preLoaderRoute: typeof BatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +174,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/packs/': {
+      id: '/packs/'
+      path: '/'
+      fullPath: '/packs/'
+      preLoaderRoute: typeof PacksIndexRouteImport
+      parentRoute: typeof PacksRoute
+    }
+    '/packs/$id': {
+      id: '/packs/$id'
+      path: '/$id'
+      fullPath: '/packs/$id'
+      preLoaderRoute: typeof PacksIdRouteImport
+      parentRoute: typeof PacksRoute
+    }
   }
 }
 
+interface PacksRouteChildren {
+  PacksIdRoute: typeof PacksIdRoute
+  PacksIndexRoute: typeof PacksIndexRoute
+}
+
+const PacksRouteChildren: PacksRouteChildren = {
+  PacksIdRoute: PacksIdRoute,
+  PacksIndexRoute: PacksIndexRoute,
+}
+
+const PacksRouteWithChildren = PacksRoute._addFileChildren(PacksRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BatchRoute: BatchRoute,
+  CalendarRoute: CalendarRoute,
+  CreateRoute: CreateRoute,
+  PacksRoute: PacksRouteWithChildren,
+  TemplatesRoute: TemplatesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
