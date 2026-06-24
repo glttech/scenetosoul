@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PacksRouteImport } from './routes/packs'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as BatchRouteImport } from './routes/batch'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PacksIndexRouteImport } from './routes/packs.index'
 import { Route as PacksIdRouteImport } from './routes/packs.$id'
@@ -29,6 +30,11 @@ const CreateRoute = CreateRouteImport.update({
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BatchRoute = BatchRouteImport.update({
+  id: '/batch',
+  path: '/batch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,6 +55,7 @@ const PacksIdRoute = PacksIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs/$id': typeof PacksIdRoute
@@ -65,6 +73,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/batch': typeof BatchRoute
   '/calendar': typeof CalendarRoute
   '/create': typeof CreateRoute
   '/packs': typeof PacksRouteWithChildren
@@ -73,12 +82,20 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calendar' | '/create' | '/packs' | '/packs/$id' | '/packs/'
+  fullPaths:
+    | '/'
+    | '/batch'
+    | '/calendar'
+    | '/create'
+    | '/packs'
+    | '/packs/$id'
+    | '/packs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calendar' | '/create' | '/packs/$id' | '/packs'
+  to: '/' | '/batch' | '/calendar' | '/create' | '/packs/$id' | '/packs'
   id:
     | '__root__'
     | '/'
+    | '/batch'
     | '/calendar'
     | '/create'
     | '/packs'
@@ -88,6 +105,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BatchRoute: typeof BatchRoute
   CalendarRoute: typeof CalendarRoute
   CreateRoute: typeof CreateRoute
   PacksRoute: typeof PacksRouteWithChildren
@@ -114,6 +132,13 @@ declare module '@tanstack/react-router' {
       path: '/calendar'
       fullPath: '/calendar'
       preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/batch': {
+      id: '/batch'
+      path: '/batch'
+      fullPath: '/batch'
+      preLoaderRoute: typeof BatchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -154,6 +179,7 @@ const PacksRouteWithChildren = PacksRoute._addFileChildren(PacksRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BatchRoute: BatchRoute,
   CalendarRoute: CalendarRoute,
   CreateRoute: CreateRoute,
   PacksRoute: PacksRouteWithChildren,
