@@ -7,7 +7,7 @@ export type Audience = "women" | "family" | "youth" | "couples" | "parents" | "g
 export type Status =
   | "Idea"
   | "Script Ready"
-  | "Prompt Ready"
+  | "Motion Prompt Ready"
   | "Video Created"
   | "Posted"
   | "Performance Added";
