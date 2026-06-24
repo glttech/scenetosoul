@@ -1,13 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Home, Plus, Calendar, Layers, BookOpen, Sparkles } from "lucide-react";
+import { LayoutDashboard, Plus, Calendar, Layers, BookOpen, Wand2, Film } from "lucide-react";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: Home },
+  { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/create", label: "Create", icon: Plus },
-  { to: "/packs", label: "All packs", icon: Layers },
+  { to: "/packs", label: "Story packs", icon: Layers },
   { to: "/calendar", label: "Calendar", icon: Calendar },
-  { to: "/batch", label: "Batch", icon: Sparkles },
+  { to: "/batch", label: "10 ideas", icon: Wand2 },
   { to: "/templates", label: "Templates", icon: BookOpen },
 ] as const;
 
@@ -15,13 +15,16 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 backdrop-blur bg-background/70 border-b border-border">
+      <header className="sticky top-0 z-20 backdrop-blur bg-background/80 border-b border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="grid place-items-center w-9 h-9 rounded-xl text-primary-foreground" style={{ background: "var(--gradient-warm)" }}>
-              <Sparkles className="w-4 h-4" />
+          <Link to="/" className="flex items-center gap-2.5 shrink-0">
+            <span className="grid place-items-center w-9 h-9 rounded-lg text-primary-foreground shadow-[var(--shadow-soft)]" style={{ background: "var(--gradient-warm)" }}>
+              <Film className="w-4 h-4" />
             </span>
-            <span className="font-display text-lg font-semibold">Kahani Studio</span>
+            <span className="flex flex-col leading-tight">
+              <span className="font-display text-[15px] font-semibold tracking-tight">Story Studio</span>
+              <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Short-video factory</span>
+            </span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             {nav.map((n) => {
@@ -30,8 +33,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Link
                   key={n.to}
                   to={n.to}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    active ? "bg-secondary text-foreground shadow-[inset_0_-2px_0_0_var(--color-primary)]" : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                   }`}
                 >
                   {n.label}
@@ -40,7 +43,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             })}
           </nav>
           <Link to="/create" className="btn-primary text-sm hidden sm:inline-flex">
-            <Plus className="w-4 h-4" /> Quick create
+            <Plus className="w-4 h-4" /> New story pack
           </Link>
         </div>
       </header>
@@ -62,8 +65,14 @@ export function AppShell({ children }: { children: ReactNode }) {
           })}
         </div>
       </nav>
-      <footer className="hidden md:block border-t border-border/60 py-6 text-center text-xs text-muted-foreground">
-        Local-first. Your stories stay on this device. Use your own photos, licensed stock, or AI-generated images only.
+      <footer className="hidden md:flex border-t border-border/60 py-5 text-center text-xs text-muted-foreground items-center justify-center gap-4">
+        <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[color:var(--success)]" /> Local-first</span>
+        <span>•</span>
+        <span>No paid APIs</span>
+        <span>•</span>
+        <span>No auto-posting</span>
+        <span>•</span>
+        <span>Own photos, licensed stock, or AI-generated only</span>
       </footer>
     </div>
   );
