@@ -113,10 +113,8 @@ export function generateScenes(input: {
   theme: Theme;
   mood: Mood;
   title: string;
-  background?: string;
-  situation?: string;
 }): Scene[] {
-  const { duration, theme, mood, title, background, situation } = input;
+  const { duration, theme, mood, title } = input;
   // sensible scene counts per duration
   const count = duration <= 5 ? 2 : duration <= 15 ? 4 : duration <= 30 ? 6 : 8;
   const perScene = Math.round((duration / count) * 10) / 10;
@@ -134,26 +132,22 @@ export function generateScenes(input: {
 
   return Array.from({ length: count }, (_, i) => {
     const b = beats[i % beats.length];
-    const bg = background
-      ? `${background}${theme === "village" ? ", rural Indian village" : ""}, props consistent across scenes.`
-      : `${theme === "village" ? "Rural Indian village, mud houses, fields" : "Warm home interior or natural setting"}, props consistent across scenes.`;
-    const sit = situation ? ` Situation: ${situation}.` : "";
     return {
       number: i + 1,
       duration: perScene,
-      imagePrompt: `Cinematic single-scene still, ${theme} ${mood} moment — ${b.beat} of "${title}".${sit} Backdrop: ${background ?? "warm Indian setting"}. Warm golden hour lighting, shallow depth of field, 35mm film grain, photorealistic, emotive faces, candid composition.`,
-      klingPrompt: `${b.camera}. ${b.beat} for ${title}.${sit} Subject: ${theme} ${b.emotion} moment. Backdrop: ${background ?? "soft natural setting"}. Smooth motion, natural human movement, soft cinematic lighting. Style: emotional storytelling, photoreal, 24fps.`,
-      pixversePrompt: `[Style: cinematic, emotional, Indian storytelling] ${b.beat}.${sit} Backdrop: ${background ?? "natural warm scene"}. Camera: ${b.camera}. Lighting: warm golden hour. Mood: ${b.emotion}. Subtle facial expressions, ambient motion, slow pace.`,
+      imagePrompt: `Cinematic still, ${theme} ${mood} scene — ${b.beat} of "${title}". Indian rural/urban setting as fits theme. Warm golden hour lighting, shallow depth of field, 35mm film grain, photorealistic, emotive faces, candid composition.`,
+      klingPrompt: `${b.camera}. ${b.beat} for ${title}. Subject: ${theme} ${b.emotion} moment. Smooth motion, natural human movement, soft cinematic lighting. Style: emotional storytelling, photoreal, 24fps.`,
+      pixversePrompt: `[Style: cinematic, emotional, Indian storytelling] ${b.beat}. Camera: ${b.camera}. Lighting: warm golden hour. Mood: ${b.emotion}. Subtle facial expressions, ambient motion, slow pace.`,
       cameraMovement: b.camera,
       character: `Primary subject relevant to ${theme} (age/gender per story); authentic Indian features and clothing.`,
-      background: bg,
+      background: `${theme === "village" ? "Rural Indian village, mud houses, fields" : "Warm home interior or natural setting"}, props consistent across scenes.`,
       lighting: "Warm golden hour, soft fill, slight backlight rim",
       emotion: b.emotion,
       negativePrompt:
         "blurry, distorted face, extra fingers, watermark, text overlay, cartoonish, low quality, oversaturated, deformed hands, logo",
       editorNotes:
         i === 0
-          ? "PRIMARY single-scene shot. Open with on-screen hook text for 1.5s, then fade."
+          ? "Open with on-screen hook text for 1.5s, then fade."
           : i === count - 1
           ? "End on warm freeze frame with subtle music swell and CTA text."
           : "Match cut to next scene; keep color grade consistent.",
@@ -225,8 +219,6 @@ export function buildPack(input: {
   audience: Audience;
   inspirationNotes?: string;
   referenceNote?: string;
-  background?: string;
-  situation?: string;
   scheduledDate?: string;
 }): ContentPack {
   const script = generateScript(input);

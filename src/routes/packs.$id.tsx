@@ -12,7 +12,7 @@ export const Route = createFileRoute("/packs/$id")({
   component: PackDetail,
 });
 
-const STATUSES: Status[] = ["Idea", "Script Ready", "Motion Prompt Ready", "Video Created", "Posted", "Performance Added"];
+const STATUSES: Status[] = ["Idea", "Script Ready", "Prompt Ready", "Video Created", "Posted", "Performance Added"];
 
 function PackDetail() {
   const { id } = useParams({ from: "/packs/$id" });
@@ -113,10 +113,9 @@ function PackDetail() {
       <div className="flex gap-1 mb-4 overflow-x-auto -mx-1 px-1">
         {(["script", "scenes", "captions", "tracker"] as const).map((t) => (
           <button key={t}
-          className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${tab === t ? "text-[color:var(--foreground)] border border-transparent" : "bg-card border border-border hover:bg-secondary"}`}
-          style={tab === t ? { background: "var(--gradient-warm)" } : undefined}
+            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${tab === t ? "bg-primary text-primary-foreground" : "bg-card border border-border hover:bg-secondary"}`}
             onClick={() => setTab(t)}>
-            {t === "script" ? "Script" : t === "scenes" ? `Single Scene Motion Prompt` : t === "captions" ? "Captions & hashtags" : "Posting & performance"}
+            {t === "script" ? "Script" : t === "scenes" ? `Scenes (${pack.scenes.length})` : t === "captions" ? "Captions & hashtags" : "Posting & performance"}
           </button>
         ))}
       </div>

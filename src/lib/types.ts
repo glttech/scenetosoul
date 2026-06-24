@@ -7,7 +7,7 @@ export type Audience = "women" | "family" | "youth" | "couples" | "parents" | "g
 export type Status =
   | "Idea"
   | "Script Ready"
-  | "Motion Prompt Ready"
+  | "Prompt Ready"
   | "Video Created"
   | "Posted"
   | "Performance Added";
@@ -73,8 +73,6 @@ export interface ContentPack {
   audience: Audience;
   inspirationNotes?: string;
   referenceNote?: string;
-  background?: string;
-  situation?: string;
   status: Status;
   scheduledDate?: string;
   script: Script;
